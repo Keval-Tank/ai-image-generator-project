@@ -1,8 +1,11 @@
 import React from 'react'
+import ImageGenerationForm from '@/components/image-generation/ImageGenerationForm'
 
 const ImageGeneration = () => {
   return (
-    <div>ImageGeneration</div>
+    <div>
+      <ImageGenerationForm/>
+    </div>
   )
 }
 

@@ -7,8 +7,10 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
+  Settings2
 } from "lucide-react"
 import { logOut } from "@/app/actions/auth-actions"
+import LogoutButton from "./authentication/LogoutButton"
 
 import {
   Avatar,
@@ -31,6 +33,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Button } from "./ui/button"
+import Link from "next/link"
 
 export function NavUser({
   user,
@@ -54,7 +57,11 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-full bg-primary text-primary-foreground">
+                  {
+                    user.name?.split(" ").map(word => word[0]).join("")
+                  }
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -73,7 +80,11 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-full bg-primary text-primary-foreground">
+                    {
+                      user.name?.split(" ").map(word => word[0]).join("")
+                    }
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -84,29 +95,22 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+                <Link href="/settings" className="flex items-center justify-center gap-3">
+                  <Settings2 />
+                  Settings
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+                <Link href="/billing" className="flex items-center justify-center gap-3">
+                  <CreditCard />
+                  Billing
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut />
-              <Button variant={"link"} onClick={logOut}>Logout</Button>
+                <LogOut className="text-destructive"/>
+                <LogoutButton/>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

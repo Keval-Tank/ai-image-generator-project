@@ -1,19 +1,10 @@
-import { CreditCard, Frame, Image, Images, Layers, LayoutDashboard, Settings2 } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Sparkles } from "lucide-react"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
 import { NavUser } from "./nav-user"
 import { NavMain } from "./nav-main"
 import { createClient } from "@/lib/supabase/server"

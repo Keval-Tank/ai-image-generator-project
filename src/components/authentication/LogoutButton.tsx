@@ -4,7 +4,7 @@ import { logOut } from '@/app/actions/auth-actions'
 
 const LogoutButton = () => {
   return (
-    <Button className='bg-destructive text-white cursor-pointer hover:bg-red-900 ' onClick={logOut}>Logout</Button>
+    <Button variant={"link"} className='text-destructive no-underline px-1' onClick={logOut}>Log out</Button>
   )
 }
 
