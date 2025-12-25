@@ -15,7 +15,7 @@ interface ImageRepsonse {
     data: any | null
 }
 
-export async function generateImage(input: (z.infer<typeof generateImageFormSchema>)): Promise<ImageRepsonse> {
+export async function generateImageAction(input: (z.infer<typeof generateImageFormSchema>)): Promise<ImageRepsonse> {
     const modelInput = {
         prompt: input.prompt,
         go_fast: true,
@@ -30,7 +30,6 @@ export async function generateImage(input: (z.infer<typeof generateImageFormSche
     }
 
     try{
-        console.log("User model -> ", input.model)
         const output = await replicate.run(input.model as `${string}/${string}`, {input : modelInput})
 
         return {

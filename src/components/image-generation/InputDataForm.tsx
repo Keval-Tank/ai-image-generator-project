@@ -30,7 +30,9 @@ import {
 } from "@/components/ui/tooltip"
 import { Info } from 'lucide-react'
 import { useEffect } from 'react'
-import { generateImage } from '@/app/actions/image-generation'
+import { generateImage } from '@/lib/features/generated-image-store/generate-image-thunk'
+import { useDispatch, UseDispatch } from 'react-redux'
+import { AppDispatch } from '@/lib/store'
 
 // required input data
 //  model
@@ -60,12 +62,12 @@ const InputDataForm = () => {
     const form = useForm<z.infer<typeof generateImageFormSchema>>({
         resolver: zodResolver(generateImageFormSchema),
         defaultValues: {
-            model: "",
+            model: "black-forest-labs/flux-dev",
             prompt: "",
             guidance: 3.5,
             num_outputs: 1,
             aspect_ratio: "1:1",
-            output_format: "WebP",
+            output_format: "webp",
             output_quality: 80,
             num_inference_steps: 28
         }
@@ -80,21 +82,21 @@ const InputDataForm = () => {
                 } else {
                     newSteps = 28
                 }
-                if(newSteps !== undefined){
+                if (newSteps !== undefined) {
                     form.setValue('num_inference_steps', newSteps)
                 }
-           }
+            }
         })
         return () => subscription.unsubscribe()
     }, [form])
+
+    const dispatch = useDispatch<AppDispatch>()
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof generateImageFormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log("values", values)
-        // const {success, error, data} = await generateImage(values)
-        // console.log({success, error, data})
+        dispatch(generateImage(values))
     }
     return (
         <fieldset className='max-w-fit bg-background p-4 border rounded-lg'>
@@ -117,7 +119,7 @@ const InputDataForm = () => {
                                     </Tooltip>
                                 </FormLabel>
                                 <FormControl>
-                                    <Select defaultValue='black-forest-labs/flux-dev'>
+                                    <Select onValueChange={field.onChange} value={field.value}>
                                         <SelectTrigger className="w-[180px]">
                                             <SelectValue placeholder="Select a Model" />
                                         </SelectTrigger>
@@ -151,7 +153,7 @@ const InputDataForm = () => {
                                         </Tooltip>
                                     </FormLabel>
                                     <FormControl>
-                                        <Select defaultValue='1:1'>
+                                        <Select onValueChange={field.onChange} value={field.value}>
                                             <SelectTrigger className="w-[180px]">
                                                 <SelectValue placeholder="Select a Model" />
                                             </SelectTrigger>
@@ -192,7 +194,7 @@ const InputDataForm = () => {
                                         </Tooltip>
                                     </FormLabel>
                                     <FormControl>
-                                        <Select defaultValue='1'>
+                                        <Select onValueChange={(value) => field.onChange(Number(value))} value={String(field.value)}>
                                             <SelectTrigger className="w-[180px]">
                                                 <SelectValue placeholder="Number of outputs" />
                                             </SelectTrigger>
@@ -328,7 +330,7 @@ const InputDataForm = () => {
                                     </Tooltip>
                                 </FormLabel>
                                 <FormControl>
-                                    <Select defaultValue='webp'>
+                                    <Select onValueChange={field.onChange} value={field.value}>
                                         <SelectTrigger className="w-[180px]">
                                             <SelectValue placeholder="Output Quality" />
                                         </SelectTrigger>

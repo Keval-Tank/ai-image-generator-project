@@ -3,18 +3,19 @@ import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local"
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import StoreProvider from "./StoreProvider";
 
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
-  variable : "--font-geist-sans",
-  weight : "100 900"
+  variable: "--font-geist-sans",
+  weight: "100 900"
 });
 
 const geistMono = localFont({
-  src : "./fonts/GeistMonoVF.woff",
+  src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
-  weight : "100 900"
+  weight: "100 900"
 });
 
 export const metadata: Metadata = {
@@ -32,8 +33,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
       >
-        {children}
-        <Toaster richColors/>
+        <StoreProvider>
+          {children}
+          <Toaster richColors />
+        </StoreProvider>
+
       </body>
     </html>
   );

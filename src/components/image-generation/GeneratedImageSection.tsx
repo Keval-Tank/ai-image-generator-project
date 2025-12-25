@@ -1,4 +1,6 @@
+"use client"
 import React from 'react'
+import { useState } from 'react'
 import { Card, CardContent } from '../ui/card'
 import {
     Carousel,
@@ -8,30 +10,47 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel"
 import Image from 'next/image'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/lib/store'
+import { Loader2 } from 'lucide-react'
 
 
 
 
-const images = [
-    {
-        src: "/hero-images/Charismatic Young Man with a Warm Smile and Stylish Tousled Hair.jpeg",
-        alt: "alternative text"
-    },
-    {
-        src: "/hero-images/Confident Businesswoman on Turquoise Backdrop.jpeg",
-        alt: "alternative text"
-    },
-    {
-        src: "/hero-images/Confident Woman in Urban Setting.jpeg",
-        alt: "alternative text"
-    },
-    {
-        src: "/hero-images/Professional Woman in Navy Blue Suit.jpeg",
-        alt: "alternative text"
-    }
+const generated_images: { url: string }[] = [
+    // {
+    //     src: "/hero-images/Charismatic Young Man with a Warm Smile and Stylish Tousled Hair.jpeg",
+    //     alt: "alternative text"
+    // },
+    // {
+    //     src: "/hero-images/Confident Businesswoman on Turquoise Backdrop.jpeg",
+    //     alt: "alternative text"
+    // },
+    // {
+    //     src: "/hero-images/Confident Woman in Urban Setting.jpeg",
+    //     alt: "alternative text"
+    // },
+    // {
+    //     src: "/hero-images/Professional Woman in Navy Blue Suit.jpeg",
+    //     alt: "alternative text"
+    // }
 ]
 
 const GeneratedImageSection = () => {
+    const { loading, images, error } = useSelector((state: RootState) => state.generatedImages)
+    if (error) {
+        return (<p>Error occured</p>)
+    }
+    if (loading) {
+        return (
+            <Card className='bg-muted rounded-none aspect-square'>
+                <CardContent>
+                    <div className='flex items-center justify-center py-70 aspect-square'>
+                        <Loader2 className='h-6 w-6 animate-spin'/>
+                    </div>
+                </CardContent>
+            </Card>)
+    }
     if (images.length === 0) {
         return (
             <Card className='bg-muted rounded-none aspect-square'>
@@ -42,6 +61,7 @@ const GeneratedImageSection = () => {
                 </CardContent>
             </Card>)
     }
+
     return (
         <div>
             <Carousel className="h-full w-full max-w-2xl z-10">
@@ -49,7 +69,7 @@ const GeneratedImageSection = () => {
                     {images.map((image, index) => (
                         <CarouselItem key={index}>
                             <div className='relative w-full aspect-square rounded-lg'>
-                                <Image src={image.src} alt={image.alt} fill className='h-fit object-cover rounded-lg' />
+                                <Image src={image.url} alt={"Generated image"} fill className='h-fit object-cover rounded-lg' />
                             </div>
                         </CarouselItem>
                     ))}
