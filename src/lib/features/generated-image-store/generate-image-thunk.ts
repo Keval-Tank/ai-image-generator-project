@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { generateImageAction } from "@/app/actions/image-generation";
+import { generateImageAction , storeGeneratedImageAction} from "@/app/actions/image-generation";
 import z from "zod";
 import { generateImageFormSchema } from "@/components/image-generation/InputDataForm";
 
@@ -12,9 +12,14 @@ export const generateImage = createAsyncThunk("generateImageThunk/generate",
         }
         const dataObj = data.map((url : string) => {
             return {
-                url
+                url,
+                ...values
             }
         })
+        const storeImageResult = await storeGeneratedImageAction(dataObj);
+        if(!storeImageResult.success){
+            return thunkAPI.rejectWithValue(storeImageResult.error)
+        }
         return dataObj
     }
 )

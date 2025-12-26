@@ -31,7 +31,7 @@ import {
 import { Info } from 'lucide-react'
 import { useEffect } from 'react'
 import { generateImage } from '@/lib/features/generated-image-store/generate-image-thunk'
-import { useDispatch, UseDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
 
 // required input data
@@ -93,7 +93,7 @@ const InputDataForm = () => {
     const dispatch = useDispatch<AppDispatch>()
 
     // 2. Define a submit handler.
-    async function onSubmit(values: z.infer<typeof generateImageFormSchema>) {
+    function onSubmit(values: z.infer<typeof generateImageFormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         dispatch(generateImage(values))
@@ -127,7 +127,7 @@ const InputDataForm = () => {
                                             <SelectGroup>
                                                 <SelectLabel>All Models</SelectLabel>
                                                 <SelectItem value="black-forest-labs/flux-dev" >Flux Dev</SelectItem>
-                                                <SelectItem value="black-forest-labs/flux-schnell">Flux Schnell</SelectItem>
+                                                {/* <SelectItem value="black-forest-labs/flux-schnell">Flux Schnell</SelectItem> */}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>

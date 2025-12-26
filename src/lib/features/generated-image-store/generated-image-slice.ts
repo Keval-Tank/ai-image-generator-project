@@ -1,8 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice} from "@reduxjs/toolkit";
 import { generateImage } from "./generate-image-thunk";
+import { z } from "zod"
+import { generateImageFormSchema } from "@/components/image-generation/InputDataForm";
 
 interface GeneratedImage {
-    images : Array<{url : string}>,
+    images : Array<{url : string} & z.infer<typeof generateImageFormSchema>>,
     error : string | null,
     loading : boolean
 }
@@ -24,7 +26,7 @@ const generatedImageSlice = createSlice({
                 state.loading = true
             })
             .addCase(generateImage.fulfilled, (state, action) => {
-                action.payload.forEach((obj : {url:string}) => {
+                action.payload.forEach((obj : {url : string} & z.infer<typeof generateImageFormSchema>) => {
                     state.images.push(obj)
                 });
                 state.loading = false
